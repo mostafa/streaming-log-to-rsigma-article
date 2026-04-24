@@ -1,0 +1,23 @@
+title: Okta Cross-Tenant Impersonation Sequence
+id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+description: >
+    Correlates four Okta detection rules into a single critical alert.
+    Fires when the same actor logs in from a proxy, deactivates MFA,
+    assigns admin privileges, and creates a rogue Identity Provider —
+    all within 30 minutes. Based on Okta's August 2023 cross-tenant
+    impersonation advisory.
+references:
+    - https://sec.okta.com/articles/2023/08/cross-tenant-impersonation-prevention-and-detection
+author: Mostafa Moradian
+date: 2026-04-24
+correlation:
+    type: temporal_ordered
+    rules:
+        - bde30855-5c53-4c18-ae90-1ff79ebc9578  # Session via proxy
+        - 50e068d7-1e6b-4054-87e5-0a592c40c7e0  # MFA deactivated
+        - 413d4a81-6c98-4479-9863-014785fd579c  # Admin role assigned
+        - 969c7590-8c19-4797-8c1b-23155de6e7ac  # Identity Provider created
+    group-by:
+        - actor.alternateId
+    timespan: 30m
+level: critical

@@ -1,0 +1,14 @@
+name: Okta System Log
+priority: 10
+transformations:
+  - type: field_name_mapping
+    mapping:
+      eventtype: eventType
+      displaymessage: displayMessage
+      securitycontext.isproxy: securityContext.isProxy
+      debugcontext.debugdata.requesturi: debugContext.debugData.requestUri
+      debugcontext.debugdata.behaviors: debugContext.debugData.behaviors
+      debugcontext.debugdata.logonlysecuritydata: debugContext.debugData.LogOnlySecurityData
+    rule_conditions:
+      - type: logsource
+        product: okta
