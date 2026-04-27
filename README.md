@@ -2,7 +2,7 @@
 
 Companion repository for the blog post [Streaming Logs to RSigma for Real-Time Detection](https://mostafa.dev/).
 
-This repo contains the Sigma detection rules, processing pipeline, and sample events used throughout the article. Together they demonstrate how [RSigma](https://github.com/timescale/rsigma) correlates individual Okta detections into a single critical alert, reproducing the attack chain from Okta's [August 2023 cross-tenant impersonation advisory](https://sec.okta.com/articles/2023/08/cross-tenant-impersonation-prevention-and-detection).
+This repo contains the Sigma detection rules and sample events used throughout the article. Together they demonstrate how [RSigma](https://github.com/timescale/rsigma) correlates individual Okta detections into a single critical alert, reproducing the attack chain from Okta's [August 2023 cross-tenant impersonation advisory](https://sec.okta.com/articles/2023/08/cross-tenant-impersonation-prevention-and-detection).
 
 ## What's Inside
 
@@ -13,20 +13,18 @@ rules/
   okta_admin_role_assigned_to_user_or_group.yml       # SigmaHQ – admin role assigned
   okta_identity_provider_created.yml                  # SigmaHQ – rogue IdP created
   okta_cross_tenant_impersonation_correlation.yml     # Custom – temporal_ordered correlation
-pipelines/
-  okta.yml                                            # Field mapping: SigmaHQ → Okta System Log
 events/
   okta_audit.ndjson                                   # Sample Okta System Log events (NDJSON)
 ```
 
-The four detection rules are unmodified copies from [SigmaHQ](https://github.com/SigmaHQ/sigma/tree/master/rules/identity/okta). The correlation rule and pipeline are custom.
+The four detection rules are from [SigmaHQ](https://github.com/SigmaHQ/sigma/tree/master/rules/identity/okta) and use the native [Okta System Log](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/SystemLog/) field names (camelCase), so no processing pipeline is needed. The correlation rule is custom.
 
 ## Quick Start
 
 Install [RSigma](https://github.com/timescale/rsigma), then run:
 
 ```bash
-rsigma eval -r rules/ -p pipelines/okta.yml < events/okta_audit.ndjson
+rsigma eval -r rules/ < events/okta_audit.ndjson
 ```
 
 You should see four individual detections (one per attack-chain step) and one `critical` correlation alert tying them together by actor within a 30-minute window.
