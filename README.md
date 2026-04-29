@@ -1,6 +1,6 @@
 # Streaming Logs to RSigma for Real-Time Detection
 
-Companion repository for the blog post [Streaming Logs to RSigma for Real-Time Detection](https://mostafa.dev/).
+Companion repository for the blog post [Streaming Logs to RSigma for Real-Time Detection](https://mostafa.dev/streaming-logs-to-rsigma-for-real-time-detection-72084b8041ad).
 
 This repo contains the Sigma detection rules and sample events used throughout the article. Together they demonstrate how [RSigma](https://github.com/timescale/rsigma) correlates individual Okta detections into a single critical alert, reproducing the attack chain from Okta's [August 2023 cross-tenant impersonation advisory](https://sec.okta.com/articles/2023/08/cross-tenant-impersonation-prevention-and-detection).
 
